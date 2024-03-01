@@ -1,0 +1,25 @@
+# Archivos y directorios generados por Python
+__pycache__/
+.pytest_cache
+*.pyc
+*.pyo
+*.pyd
+
+# Entornos virtuales de Python (por ejemplo, virtualenv, pipenv)
+venv/
+env/
+env-env/
+*.env
+
+# Archivos de registro y archivos de caché
+*.log
+*.cache
+
+# Archivos generados por herramientas de desarrollo como IDEs
+.vscode/
+.idea/
+
+# Dependencias y directorios de construcción generados
+/dist/
+/build/
+*.egg-info/
