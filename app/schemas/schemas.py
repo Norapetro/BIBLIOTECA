@@ -1,5 +1,5 @@
 from typing import List,Optional,Generic, TypeVar
-from pydantic import BaseModel, Field
+from pydantic import BaseModel, EmailStr, Field
 from pydantic.generics import GenericModel
 
 # creamos un tipo de variable "cualquiera"
@@ -9,21 +9,34 @@ T = TypeVar("T")
 class BookSchema(BaseModel):
     id: Optional[int] = None
     title: Optional[str] = None
+    author: str
+    publication_date: str
+    publisher: str
+    num_pages: int
     description: Optional[str] = None
+    price: float
     
     class Config:
-        # le especificamos que será para uso de un ORM
-        orm_mode = True
-        # Colocamos un ejemplo que se mostrará en el SWAGGER
-        schema_extra  = {
-            "example":
-                {
-                    "id": 0,
-                    "title": "titulo del libro",
-                    "description": "decripción del libro"
-                }
+        orm_mode = True           # le especificamos que será para uso de un ORM
+        schema_extra = {         # Colocamos un ejemplo que se mostrará en el SWAGGER
+            "example": {
+                "id": 1,
+                "title": "Título del libro",
+                "author": "Autor del libro",
+                "publication_date": "2022-03-01",
+                "publisher": "Editorial",
+                "num_pages": 200,
+                "description": "Descripción del libro",
+                "price": 19.99
+            }
         }
-
+class UserSchema(BaseModel):
+    id: int
+    cedula: str  # Número de cédula del usuario
+    username: str  # Nombre de usuario único
+    email: EmailStr  # Correo electrónico único
+    phone: str  # Teléfono del usuario
+    address: str  # Dirección del usuario
 # Creamos un schema de respuesta
 class Response(BaseModel):
     code: str
