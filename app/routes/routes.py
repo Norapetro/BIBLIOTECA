@@ -1,3 +1,4 @@
+from datetime import datetime
 from fastapi import APIRouter, HTTPException, Path
 from fastapi import Depends
 from app.db.config import SessionLocal,get_db
@@ -6,8 +7,10 @@ from app.schemas.schemas import BookSchema, Response, UserSchema
 from app.db import crud
 from app.db.config import get_db
 from app.routes.routes import UserSchema
+from ..models.models import Biblioteca
 
 from app.db import crud
+biblioteca = Biblioteca()
 
 # Creamos un router, que es un conjunto de rutas agrupadas
 router = APIRouter()
@@ -21,18 +24,20 @@ router = APIRouter()
 # Creamos la ruta con la que crearemos 
 @router.post("/create")
 async def create_book_service(request: BookSchema, db: Session = Depends(get_db)):
+    request.publication_date = datetime.strptime(request.publication_date, '%Y-%m-%d').date()
     crud.create_book(db, book=request)
+    biblioteca.agregar_libro(request)
     print(request)
     return Response(status="Ok",
                     code="200",
-                    message="Book created successfully",result=request).dict(exclude_none=True)
+                    message="Libro creado exitosamente",result=request).dict(exclude_none=True)
     # retornamos la respuesta con el schema de response
 
 
 @router.get("/")
 async def get_books(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
     _books = crud.get_book(db, skip, limit)
-    return Response(status="Ok", code="200", message="Success fetch all data", result=_books)
+    return Response(status="Ok", code="200", message="Se obtuvieron todos los datos con éxito", result=_books)
 
 
 @router.patch("/update")
@@ -40,12 +45,12 @@ async def update_book(request: BookSchema, db: Session = Depends(get_db)):
     try:
         _book = crud.update_book(db, book_id=request.id,
                                 title=request.title, description=request.description)
-        return Response(status="Ok", code="200", message="Success update data", result=_book)
+        return Response(status="Ok", code="200", message="Actualización de Datos exitosa", result=_book)
     except Exception as e:
         return Response(
             status="bad",
             code="304",
-            message="the updated gone wrong"
+            message="la actualización salió mal"
         )
     # colocamos una excepción por si ocurre un error en la escritura en la db
 
@@ -54,12 +59,12 @@ async def update_book(request: BookSchema, db: Session = Depends(get_db)):
 async def delete_book(request: BookSchema,  db: Session = Depends(get_db)):
     try:
         crud.remove_book(db, book_id=request.id)
-        return Response(status="Ok", code="200", message="Success delete data").dict(exclude_none=True)
+        return Response(status="Ok", code="200", message="Eliminación exitosa de datos.").dict(exclude_none=True)
     except Exception as e:
         return Response(
             status="bad",
             code="",
-            message="the deleted gone wrong"
+            message="Algo en la eliminacion salio mal"
         )
     # colocamos una excepción por si ocurre un error en la escritura en la db
     

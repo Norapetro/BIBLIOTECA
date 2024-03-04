@@ -32,3 +32,15 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)  # Correo electrónico único
     phone = Column(String, nullable=False, unique=True)  # Teléfono del usuario
     address = Column(String)  # Dirección del usuario
+
+class Biblioteca:
+    def __init__(self):
+        self.catalogo = []
+
+    def agregar_libro(self, libro):
+        self.catalogo.append(libro)
+
+    def mostrar_catalogo(self):
+        print("Catálogo de la biblioteca:")
+        for libro in self.catalogo:
+            print(libro)
