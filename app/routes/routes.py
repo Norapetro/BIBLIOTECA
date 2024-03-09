@@ -39,6 +39,12 @@ async def get_books(skip: int = 0, limit: int = 100, db: Session = Depends(get_d
     _books = crud.get_book(db, skip, limit)
     return Response(status="Ok", code="200", message="Se obtuvieron todos los datos con éxito", result=_books)
 
+@router.get("/{book_id}")
+async def get_book_by_id(book_id: int, db: Session = Depends(get_db)):
+    book = crud.get_book_by_id(db, book_id)
+    if not book:
+        raise HTTPException(status_code=404, detail="Book not found")
+    return book
 
 @router.patch("/update")
 async def update_book(request: BookSchema, db: Session = Depends(get_db)):
