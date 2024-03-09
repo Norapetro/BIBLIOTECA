@@ -49,10 +49,13 @@ async def get_book_by_id(book_id: int, db: Session = Depends(get_db)):
 @router.patch("/update")
 async def update_book(request: BookSchema, db: Session = Depends(get_db)):
     try:
+        print("request:", request)
         _book = crud.update_book(db, book_id=request.id,
-                                title=request.title, description=request.description)
+                                title=request.title, author=request.author,publication_date=request.publication_date,publisher=request.publisher,
+                                num_pages=request.num_pages,description=request.description, price=request.price,state=request.state)
         return Response(status="Ok", code="200", message="Success update data", result=_book)
     except Exception as e:
+        print(e)
         return Response(
             status="bad",
             code="304",

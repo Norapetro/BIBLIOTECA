@@ -16,6 +16,7 @@ class BookSchema(BaseModel):
     num_pages: int
     description: Optional[str] = None
     price: float
+    state: str
     
     class Config:
         orm_mode = True           # le especificamos que será para uso de un ORM
@@ -28,7 +29,8 @@ class BookSchema(BaseModel):
                 "publisher": "Editorial",
                 "num_pages": 200,
                 "description": "Descripción del libro",
-                "price": 19.99
+                "price": 19.99,
+                "state": "ACTIVE"
             }
         }
 class UserSchema(BaseModel):

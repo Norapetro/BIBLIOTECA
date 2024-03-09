@@ -2,6 +2,6 @@ from enum import Enum
 
 
 class StateBook(Enum):
-    ASSET = 'Asset'   #ACTIVO
-    IDLE = 'Idle'     #INACTIVO
-    BORROWED = 'Borrowed'   #PRESTADO
+    ACTIVE = 'ACTIVE'   #ACTIVO
+    INACTIVE = 'INACTIVE'     #INACTIVO
+    BORROWED = 'BORROWED'   #PRESTADO

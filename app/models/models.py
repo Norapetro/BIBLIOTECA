@@ -12,12 +12,12 @@ class Book(Base):
     id = Column(Integer, primary_key=True)
     title = Column(String, nullable=False)  # Título del libro (no puede ser nulo)
     author = Column(String)  # Nombre del autor
-    publication_date = Column(Date)  # Fecha de publicación
+    publication_date = Column(String)  # Fecha de publicación
     publisher = Column(String)  # Editorial
     num_pages = Column(Integer)  # Número de páginas
     description = Column(String)  # Descripción opcional del libro
     price = Column(Float)  # Precio
-    state = Column(Enum(StateBook), default=StateBook.ASSET)
+    state = Column(Enum(StateBook), default=StateBook.ACTIVE)
     
 # Definición de la clase para representar un usuario en la base de datos
 class User(Base):
@@ -30,8 +30,8 @@ class User(Base):
     id = Column(Integer, primary_key=True)
     cedula = Column(String, unique=True)  # Número de cédula del usuario
     username = Column(String, nullable=False, unique=True)  # Nombre de usuario único
-    email = Column(String, nullable=False, unique=True)  # Correo electrónico único
-    phone = Column(String, nullable=False, unique=True)  # Teléfono del usuario
+    email = Column(String, nullable=False)  # Correo electrónico único
+    phone = Column(String, nullable=False)  # Teléfono del usuario
     address = Column(String)  # Dirección del usuario
 
 class BookTransaction(Base):

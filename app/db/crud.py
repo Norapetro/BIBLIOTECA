@@ -25,7 +25,8 @@ def create_book(db:Session, book:BookSchema):
         publisher=book.publisher,
         num_pages=book.num_pages,
         description=book.description,
-        price=book.price
+        price=book.price,
+        state=book.state
     )
     db.add(_book)
     db.commit()
@@ -43,17 +44,21 @@ def remove_book(db:Session, book_id:int):
 # para eliminar filtramos por el Id
 # eliminamos
 
-def update_book(db: Session, book_id: int, updated_book_data: BookSchema):
+def update_book(db: Session, book_id: int,title:str,author:str, publication_date:str,
+                publisher:str, num_pages:int, description:str, price:int, state:str):
+    print("book_id", book_id)
     _book = get_book_by_id(db=db, book_id=book_id)       # Obtener el libro existente por su ID
-    
+    print("after _book ", _book)
     # Actualizar los campos del libro existente con los datos
-    _book.title = updated_book_data.title
-    _book.author = updated_book_data.author
-    _book.publication_date = updated_book_data.publication_date
-    _book.publisher = updated_book_data.publisher
-    _book.num_pages = updated_book_data.num_pages
-    _book.description = updated_book_data.description
-    _book.price = updated_book_data.price
+    _book.title = title
+    _book.author = author
+    _book.publication_date = publication_date
+    _book.publisher = publisher
+    _book.num_pages = num_pages
+    _book.description = description
+    _book.price = price
+    _book.state = state
+    print("update properties: ", _book.state)
     
     db.commit()       # Guardar los cambios en la base de datos
     db.refresh(_book)     # Actualizar el objeto de libro en la sesión de base de datos 
