@@ -1,6 +1,6 @@
 from sqlalchemy import Column, Integer, String, Date, Float, Enum, ForeignKey, Date
 from app.db.config import Base
-from app.utils.utils import EstadoLibro
+from app.utils.utils import StateBook
 # Definición de la clase para representar un libro en la base de datos
 class Book(Base):
     """
@@ -17,7 +17,7 @@ class Book(Base):
     num_pages = Column(Integer)  # Número de páginas
     description = Column(String)  # Descripción opcional del libro
     price = Column(Float)  # Precio
-    estado = Column(Enum(EstadoLibro), default=EstadoLibro.ACTIVO)
+    state = Column(Enum(StateBook), default=StateBook.ASSET)
     
 # Definición de la clase para representar un usuario en la base de datos
 class User(Base):

@@ -1,7 +1,7 @@
 from enum import Enum
 
 
-class EstadoLibro(Enum):
-    ACTIVO = 'Activo'
-    INACTIVO = 'Inactivo'
-    PRESTADO = 'Prestado'
+class StateBook(Enum):
+    ASSET = 'Asset'   #ACTIVO
+    IDLE = 'Idle'     #INACTIVO
+    BORROWED = 'Borrowed'   #PRESTADO
