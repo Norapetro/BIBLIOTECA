@@ -1,5 +1,6 @@
+from datetime import date
 from sqlalchemy.orm import Session # La sesión de la DB
-from app.models.models import Book, User # El modelo ORM de nuestra DB
+from app.models.models import Book, User, BookTransaction # El modelo ORM de nuestra DB
 from app.schemas.schemas import BookSchema, UserSchema # el esquema del JSON
 
 # creamos la función para obtener todos los libros
@@ -97,3 +98,10 @@ def update_user(db: Session, user_id: int, username: str, email: str, phone: str
     db.commit()
     db.refresh(_user)
     return _user
+
+def create_transaction(db: Session, user_id: int, book_id: int, date_transaction: date, type_transaction: str):
+    transaction = BookTransaction(user_id=user_id, book_id=book_id, date_transaction=date_transaction, type_transaction=type_transaction)
+    db.add(transaction)
+    db.commit()
+    db.refresh(transaction)
+    return transaction

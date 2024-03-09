@@ -1,4 +1,4 @@
-from sqlalchemy import Column, Integer, String,Date,Float,Enum
+from sqlalchemy import Column, Integer, String, Date, Float, Enum, ForeignKey, Date
 from app.db.config import Base
 from app.utils.utils import EstadoLibro
 # Definición de la clase para representar un libro en la base de datos
@@ -33,6 +33,15 @@ class User(Base):
     email = Column(String, nullable=False, unique=True)  # Correo electrónico único
     phone = Column(String, nullable=False, unique=True)  # Teléfono del usuario
     address = Column(String)  # Dirección del usuario
+
+class BookTransaction(Base):
+    __tablename__ = "book_transaction"
+
+    id = Column(Integer, primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    book_id = Column(Integer, ForeignKey("book.id"))
+    date_transaction = Column(Date)
+    type_transaction = Column(String)
 
 class Biblioteca:
     def __init__(self):

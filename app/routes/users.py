@@ -1,6 +1,6 @@
-from fastapi import APIRouter, Depends, Response
+from fastapi import APIRouter, Depends
 from app.db import crud
-from app.schemas.schemas import UserSchema
+from app.schemas.schemas import UserSchema, Response
 from app.db.config import get_db
 from sqlalchemy.orm import Session
 

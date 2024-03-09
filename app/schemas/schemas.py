@@ -1,6 +1,7 @@
 from typing import List,Optional,Generic, TypeVar
 from pydantic import BaseModel, EmailStr, Field
 from pydantic.generics import GenericModel
+from datetime import date
 
 # creamos un tipo de variable "cualquiera"
 T = TypeVar("T")
@@ -37,6 +38,14 @@ class UserSchema(BaseModel):
     email: EmailStr  # Correo electrónico único
     phone: str  # Teléfono del usuario
     address: str  # Dirección del usuario
+    
+class BookTransactionSchema(BaseModel):
+    user_id: int
+    book_id: int
+    date_transaction: date
+    type_transaction: str    
+    
+    
 # Creamos un schema de respuesta
 class Response(BaseModel):
     code: str

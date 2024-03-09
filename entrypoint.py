@@ -5,6 +5,7 @@ import app.models.models as model
 from app.db.config import SessionLocal, engine
 from app.routes.routes import router as router_crud
 from app.routes.users import router as user_router
+from app.routes.transacción import router as transaction_router
 
 model.Base.metadata.create_all(bind=engine)
 
@@ -14,7 +15,7 @@ origins = [
 
 app = FastAPI(
     title="Book Details",
-    description="Puede realizar operaciones CRUD utilizando esta API",
+    description="You can perform CRUD operations using this API",
     version="1.0.0",
     docs_url="/docs",  # Agregar documentación de API
     redoc_url=None
@@ -23,7 +24,7 @@ app = FastAPI(
 @app.get("/")
 def hello_world_check():
     return {
-        "msg":"Hola, Este es el Sistema Bibliotecario."
+        "msg":"Hola, Biblioteca BACKEND ."
     }
 
 app.add_middleware(
@@ -37,6 +38,7 @@ app.add_middleware(
 
 app.include_router(router=router_crud,tags=["Books CRUD"],prefix="/books")
 app.include_router(router=user_router, tags=["Users CRUD"], prefix="/users")
+app.include_router(router=transaction_router, tags=["transaction CRUD"], prefix="/transaction")
 
 
 

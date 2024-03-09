@@ -3,7 +3,7 @@ from fastapi import APIRouter, HTTPException, Path
 from fastapi import Depends
 from app.db.config import SessionLocal,get_db
 from sqlalchemy.orm import Session
-from app.schemas.schemas import BookSchema, Response, UserSchema
+from app.schemas.schemas import BookSchema, BookTransactionSchema, Response, UserSchema
 from app.db import crud
 from app.db.config import get_db
 from app.routes.routes import UserSchema
