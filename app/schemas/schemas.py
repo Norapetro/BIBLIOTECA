@@ -14,7 +14,7 @@ class BookSchema(BaseModel):
     publication_date: str
     publisher: str
     num_pages: int
-    description: Optional[str] = None
+    tematica: Optional[str] = None
     price: float
     state: str
     
@@ -28,7 +28,7 @@ class BookSchema(BaseModel):
                 "publication_date": "2022-03-01",
                 "publisher": "Editorial",
                 "num_pages": 200,
-                "description": "Descripción del libro",
+                "tematica": "Tematica del libro",
                 "price": 19.99,
                 "state": "ACTIVE"
             }
@@ -43,10 +43,20 @@ class UserSchema(BaseModel):
     
 class BookTransactionSchema(BaseModel):
     user_id: int
+    username:str
     book_id: int
+    book_title: str
     date_transaction: date
     type_transaction: str    
     
+class PaymentSchema(BaseModel):    
+    user_id: int
+    username:str
+    book_id: int
+    book_title: str
+    payment_date: date
+    amount: float = Field(..., gt=0)
+    observation: str
     
 # Creamos un schema de respuesta
 class Response(BaseModel):

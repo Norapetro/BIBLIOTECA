@@ -3,10 +3,9 @@ from fastapi import APIRouter, HTTPException, Path
 from fastapi import Depends
 from app.db.config import SessionLocal,get_db
 from sqlalchemy.orm import Session
-from app.schemas.schemas import BookSchema, BookTransactionSchema, Response, UserSchema
+from app.schemas.schemas import BookSchema, Response
 from app.db import crud
 from app.db.config import get_db
-from app.routes.routes import UserSchema
 from ..models.models import Biblioteca
 
 from app.db import crud
@@ -52,7 +51,7 @@ async def update_book(request: BookSchema, db: Session = Depends(get_db)):
         print("request:", request)
         _book = crud.update_book(db, book_id=request.id,
                                 title=request.title, author=request.author,publication_date=request.publication_date,publisher=request.publisher,
-                                num_pages=request.num_pages,description=request.description, price=request.price,state=request.state)
+                                num_pages=request.num_pages,tematica=request.tematica, price=request.price,state=request.state)
         return Response(status="Ok", code="200", message="Success update data", result=_book)
     except Exception as e:
         print(e)

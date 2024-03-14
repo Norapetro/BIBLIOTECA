@@ -1,7 +1,7 @@
 from datetime import date
 from sqlalchemy.orm import Session # La sesión de la DB
-from app.models.models import Book, User, BookTransaction # El modelo ORM de nuestra DB
-from app.schemas.schemas import BookSchema, UserSchema # el esquema del JSON
+from app.models.models import Book, User, BookTransaction,Payment # El modelo ORM de nuestra DB
+from app.schemas.schemas import BookSchema, PaymentSchema, UserSchema # el esquema del JSON
 
 # creamos la función para obtener todos los libros
 def get_book(db:Session, skip:int=0, limit:int=100):
@@ -24,7 +24,7 @@ def create_book(db:Session, book:BookSchema):
         publication_date=book.publication_date,
         publisher=book.publisher,
         num_pages=book.num_pages,
-        description=book.description,
+        tematica=book.tematica,
         price=book.price,
         state=book.state
     )
@@ -45,7 +45,7 @@ def remove_book(db:Session, book_id:int):
 # eliminamos
 
 def update_book(db: Session, book_id: int,title:str,author:str, publication_date:str,
-                publisher:str, num_pages:int, description:str, price:int, state:str):
+                publisher:str, num_pages:int, tematica:str, price:int, state:str):
     print("book_id", book_id)
     _book = get_book_by_id(db=db, book_id=book_id)       # Obtener el libro existente por su ID
     print("after _book ", _book)
@@ -55,7 +55,7 @@ def update_book(db: Session, book_id: int,title:str,author:str, publication_date
     _book.publication_date = publication_date
     _book.publisher = publisher
     _book.num_pages = num_pages
-    _book.description = description
+    _book.tematica = tematica
     _book.price = price
     _book.state = state
     print("update properties: ", _book.state)
@@ -104,9 +104,25 @@ def update_user(db: Session, user_id: int, username: str, email: str, phone: str
     db.refresh(_user)
     return _user
 
-def create_transaction(db: Session, user_id: int, book_id: int, date_transaction: date, type_transaction: str):
-    transaction = BookTransaction(user_id=user_id, book_id=book_id, date_transaction=date_transaction, type_transaction=type_transaction)
+def create_transaction(db: Session, user_id: int, username:str, book_id: int, book_title:str, date_transaction: date, type_transaction: str):
+    transaction = BookTransaction(user_id=user_id, username=username,book_id=book_id, book_title=book_title,date_transaction=date_transaction, type_transaction=type_transaction)
     db.add(transaction)
     db.commit()
     db.refresh(transaction)
     return transaction
+
+def create_payment(db: Session, payment: PaymentSchema):
+    
+    new_payment = Payment(
+        user_id=payment.user_id,
+        username=payment.username,
+        book_id=payment.book_id,
+        book_title=payment.book_title,
+        payment_date=payment.payment_date,
+        amount=payment.amount,
+        observation=payment.observation
+    )
+    db.add(new_payment)
+    db.commit()
+    db.refresh(new_payment)
+    return new_payment

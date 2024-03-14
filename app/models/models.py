@@ -15,7 +15,7 @@ class Book(Base):
     publication_date = Column(String)  # Fecha de publicación
     publisher = Column(String)  # Editorial
     num_pages = Column(Integer)  # Número de páginas
-    description = Column(String)  # Descripción opcional del libro
+    tematica = Column(String)  # Descripción opcional del libro
     price = Column(Float)  # Precio
     state = Column(Enum(StateBook), default=StateBook.ACTIVE)
     
@@ -39,10 +39,24 @@ class BookTransaction(Base):
 
     id = Column(Integer, primary_key=True)
     user_id = Column(Integer, ForeignKey("user.id"))
+    username = Column(String)
     book_id = Column(Integer, ForeignKey("book.id"))
+    book_title = Column(String)
     date_transaction = Column(Date)
     type_transaction = Column(String)
 
+class Payment(Base):
+    __tablename__ = "Book_payment"
+    
+    id = Column(Integer,primary_key=True)
+    user_id = Column(Integer, ForeignKey("user.id"))
+    username = Column(String)
+    book_id = Column(Integer, ForeignKey("book.id"))
+    book_title = Column(String)
+    payment_date = Column(Date)
+    amount = Column(Float)
+    observation = Column(String)
+    
 class Biblioteca:
     def __init__(self):
         self.catalogo = []
