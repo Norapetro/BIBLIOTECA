@@ -7,30 +7,29 @@ from sqlalchemy.orm import Session
 router = APIRouter()
 
 # Rutas CRUD para la entidad User
-@router.post("/create")
+@router.post("/users/create")
 async def create_user(user: UserSchema, db: Session = Depends(get_db)):
     created_user = crud.create_user(db, user=user)
     return Response(status="Ok", code="200", message="User created successfully", result=created_user).dict(exclude_none=True)
 
-@router.get("/")
+@router.get("/users/")
 async def get_users(skip: int = 0, limit: int = 100, db: Session = Depends(get_db)):
-    users = crud.get_users(db, skip, limit)
-    return Response(status="Ok", code="200", message="Success fetch all data", result=users)
+    _users = crud.get_user(db, skip, limit)
+    return Response(status="Ok", code="200", message="Success fetch all data", result=_users)
 
-@router.get("/{user_id}")
+@router.get("/users/{user_id}")
 async def get_user_by_id(user_id: int, db: Session = Depends(get_db)):
     user = crud.get_user_by_id(db, user_id)
     if not user:
         raise HTTPException(status_code=404, detail="User not found")
     return user
 
-@router.patch("/update")
+@router.patch("/users/update/{user_id}")
 async def update_user(user_id: int, user: UserSchema, db: Session = Depends(get_db)):
-    updated_user = crud.update_user(db, user_id=user_id, user=user)
+    updated_user = crud.update_user(db, user_id=user_id, username=user.username, email=user.email, phone=user.phone, address=user.address)
     return Response(status="Ok", code="200", message="Success update data", result=updated_user)
 
-@router.delete("/delete")
+@router.delete("/users/delete/{user_id}")
 async def delete_user(user_id: int, db: Session = Depends(get_db)):
-    deleted_user = crud.delete_user(db, user_id=user_id)
+    deleted_user = crud.remove_user(db, user_id=user_id)
     return Response(status="Ok", code="200", message="Success delete data", result=deleted_user)
-    
