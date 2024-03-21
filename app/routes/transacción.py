@@ -14,10 +14,24 @@ async def create_book_transaction(transaction: BookTransactionSchema, db: Sessio
     #BUSCAR EL LIBRO POR ID
     book = crud.get_book_by_id(db, transaction.book_id)
     print(transaction.type_transaction)
-    if transaction.type_transaction == "prestamo" and book.state == StateBook.ACTIVE:
-        state = "BORROWED"
-    elif transaction.type_transaction == "devolucion" and book.state == StateBook.BORROWED:
-        state = "ACTIVE"
+    if transaction.type_transaction == "prestamo":
+        if book.state == StateBook.BORROWED:
+            return Response(
+                status="bad request",
+                code="400",
+                message="El libro ya está préstado y no se puede prestar nuevamente hasta que sea devuelto."
+            )
+        else:
+            state = StateBook.BORROWED
+    elif transaction.type_transaction == "devolucion":
+        if book.state != StateBook.BORROWED:
+            return Response(
+                status="bad request",
+                code="400",
+                message="El libro no está en préstado y, por lo tanto, no se puede devolver."
+            )
+        else:
+            state = StateBook.ACTIVE
     else: 
         return Response(
             status="bad request",
