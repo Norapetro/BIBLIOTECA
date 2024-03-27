@@ -35,7 +35,7 @@ class BookSchema(BaseModel):
         }
 class UserSchema(BaseModel):
     id: int
-    cedula: str  # Número de cédula del usuario
+    identification: str  # Número de cédula del usuario
     username: str  # Nombre de usuario único
     email: EmailStr  # Correo electrónico único
     phone: str  # Teléfono del usuario

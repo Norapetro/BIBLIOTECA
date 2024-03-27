@@ -28,7 +28,7 @@ class User(Base):
     
     # Columnas de la tabla 'user'
     id = Column(Integer, primary_key=True)
-    cedula = Column(String, unique=True)  # Número de cédula del usuario
+    identification = Column(String, unique=True)  # Número de cédula del usuario
     username = Column(String, nullable=False, unique=True)  # Nombre de usuario único
     email = Column(String, nullable=False)  # Correo electrónico único
     phone = Column(String, nullable=False)  # Teléfono del usuario

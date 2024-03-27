@@ -77,7 +77,7 @@ def get_user_by_id(db: Session, user_id: int):
 
 def create_user(db: Session, user: UserSchema):
     _user = User(
-        cedula=user.cedula,
+        identification=user.identification,
         username=user.username,
         email=user.email,
         phone=user.phone,
